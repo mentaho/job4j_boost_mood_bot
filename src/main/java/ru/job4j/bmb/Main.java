@@ -17,7 +17,7 @@ public class Main {
     public CommandLineRunner initTelegramApi(ApplicationContext ctx) {
         return args -> {
             var bot = ctx.getBean(TelegramBotService.class);
-            bot.receive(new Content());
+            bot.content(new Content());
         };
     }
 }
