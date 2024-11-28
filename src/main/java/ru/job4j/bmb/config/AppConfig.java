@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppConfig {
 
-    @Value("${app.name}")
+    @Value("${telegram.bot.name}")
     private String appName;
 
 }
