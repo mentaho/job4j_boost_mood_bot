@@ -2,23 +2,22 @@ package ru.job4j.bmb.model;
 
 import jakarta.persistence.*;
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.bmb.repository.UserRepository;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity
-@Table(name = "mb_user")
-public class User implements CrudRepository {
+@Table(name = "mb_award")
+public class Award implements CrudRepository {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id", unique = true)
-    private long clientId;
+    private String title;
 
-    @Column(name = "chat_id")
-    private long chatId;
+    private String description;
+
+    private int days;
 
     public Long getId() {
         return id;
@@ -28,20 +27,28 @@ public class User implements CrudRepository {
         this.id = id;
     }
 
-    public long getClientId() {
-        return clientId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public long getChatId() {
-        return chatId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
     }
 
     @Override
@@ -52,13 +59,14 @@ public class User implements CrudRepository {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+
+        Award award = (Award) o;
+        return Objects.equals(award, award.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id.hashCode();
     }
 
     @Override

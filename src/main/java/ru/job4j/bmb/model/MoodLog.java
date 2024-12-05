@@ -2,23 +2,28 @@ package ru.job4j.bmb.model;
 
 import jakarta.persistence.*;
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.bmb.repository.UserRepository;
+import ru.job4j.bmb.model.Mood;
+import ru.job4j.bmb.model.User;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity
-@Table(name = "mb_user")
-public class User implements CrudRepository {
+@Table(name = "mb_mood_log")
+public class MoodLog implements CrudRepository {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id", unique = true)
-    private long clientId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "chat_id")
-    private long chatId;
+    @ManyToOne
+    @JoinColumn(name = "mood_id")
+    private Mood mood;
+
+    private long createdAt;
 
     public Long getId() {
         return id;
@@ -28,20 +33,28 @@ public class User implements CrudRepository {
         this.id = id;
     }
 
-    public long getClientId() {
-        return clientId;
+    public User getUser() {
+        return user;
     }
 
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public long getChatId() {
-        return chatId;
+    public Mood getMood() {
+        return mood;
     }
 
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
+    public void setMood(Mood mood) {
+        this.mood = mood;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -52,13 +65,13 @@ public class User implements CrudRepository {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+        MoodLog moodLog = (MoodLog) o;
+        return Objects.equals(id, moodLog.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 
     @Override

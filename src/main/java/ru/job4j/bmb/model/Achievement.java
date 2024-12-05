@@ -2,23 +2,28 @@ package ru.job4j.bmb.model;
 
 import jakarta.persistence.*;
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.bmb.repository.UserRepository;
+import ru.job4j.bmb.model.Award;
+import ru.job4j.bmb.model.User;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity
-@Table(name = "mb_user")
-public class User implements CrudRepository {
+@Table(name = "mb_achievement")
+public class Achievement implements CrudRepository {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id", unique = true)
-    private long clientId;
+    private long createAt;
 
-    @Column(name = "chat_id")
-    private long chatId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "award_id")
+    private Award award;
 
     public Long getId() {
         return id;
@@ -28,20 +33,28 @@ public class User implements CrudRepository {
         this.id = id;
     }
 
-    public long getClientId() {
-        return clientId;
+    public long getCreateAt() {
+        return createAt;
     }
 
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
+    public void setCreateAt(long createAt) {
+        this.createAt = createAt;
     }
 
-    public long getChatId() {
-        return chatId;
+    public User getUser() {
+        return user;
     }
 
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Award getAward() {
+        return award;
+    }
+
+    public void setAward(Award award) {
+        this.award = award;
     }
 
     @Override
@@ -52,13 +65,14 @@ public class User implements CrudRepository {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+
+        Achievement achievement = (Achievement) o;
+        return Objects.equals(achievement, achievement.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id.hashCode();
     }
 
     @Override

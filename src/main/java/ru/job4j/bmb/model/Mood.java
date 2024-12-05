@@ -2,23 +2,20 @@ package ru.job4j.bmb.model;
 
 import jakarta.persistence.*;
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.bmb.repository.UserRepository;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity
-@Table(name = "mb_user")
-public class User implements CrudRepository {
+@Table(name = "mb_mood")
+public class Mood implements CrudRepository {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id", unique = true)
-    private long clientId;
+    private String text;
 
-    @Column(name = "chat_id")
-    private long chatId;
+    private boolean good;
 
     public Long getId() {
         return id;
@@ -28,20 +25,20 @@ public class User implements CrudRepository {
         this.id = id;
     }
 
-    public long getClientId() {
-        return clientId;
+    public String getText() {
+        return text;
     }
 
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public long getChatId() {
-        return chatId;
+    public boolean isGood() {
+        return good;
     }
 
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
+    public void setGood(boolean good) {
+        this.good = good;
     }
 
     @Override
@@ -52,13 +49,14 @@ public class User implements CrudRepository {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+
+        Mood mood = (Mood) o;
+        return Objects.equals(mood, mood.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id.hashCode();
     }
 
     @Override
