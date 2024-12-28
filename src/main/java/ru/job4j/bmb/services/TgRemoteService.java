@@ -23,6 +23,7 @@ public class TgRemoteService extends TelegramLongPollingBot {
     private final String botName;
     private final String botToken;
     private final UserRepository userRepository;
+    private MoodService moodService;
 
     static {
         MOOD_RESP.put("lost_sock", "Носки — это коварные создания. Но не волнуйся, второй обязательно найдётся!");
@@ -34,10 +35,11 @@ public class TgRemoteService extends TelegramLongPollingBot {
 
     public TgRemoteService(@Value("${telegram.bot.name}") String botName,
                            @Value("${telegram.bot.token}") String botToken,
-                           UserRepository userRepository) {
+                           UserRepository userRepository, MoodService moodService) {
         this.botName = botName;
         this.botToken = botToken;
         this.userRepository = userRepository;
+        this.moodService = moodService;
     }
 
     @Override
