@@ -25,7 +25,7 @@ public class TgRemoteService extends TelegramLongPollingBot {
     private final String botName;
     private final String botToken;
     private final UserRepository userRepository;
-    private final MoodRepository moodRepository;
+    private final TgUI tgUI;
     private MoodService moodService;
 
     static {
@@ -38,12 +38,12 @@ public class TgRemoteService extends TelegramLongPollingBot {
 
     public TgRemoteService(@Value("${telegram.bot.name}") String botName,
                            @Value("${telegram.bot.token}") String botToken,
-                           UserRepository userRepository, MoodService moodService, MoodRepository moodRepository) {
+                           UserRepository userRepository, MoodService moodService, TgUI tgUI) {
         this.botName = botName;
         this.botToken = botToken;
         this.userRepository = userRepository;
         this.moodService = moodService;
-        this.moodRepository = moodRepository;
+        this.tgUI = tgUI;
     }
 
     @Override
@@ -83,26 +83,8 @@ public class TgRemoteService extends TelegramLongPollingBot {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText("Как настроение сегодня?");
-
-        var inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-
-        moodRepository.findAll().forEach(mood ->
-        {
-            keyboard.add(List.of(createBtn(mood.getText(), mood.getText())));
-        });
-
-        inlineKeyboardMarkup.setKeyboard(keyboard);
-        message.setReplyMarkup(inlineKeyboardMarkup);
-
+        message.setReplyMarkup(tgUI.buildButtons());
         return message;
-    }
-
-    InlineKeyboardButton createBtn(String name, String data) {
-        var inline = new InlineKeyboardButton();
-        inline.setText(name);
-        inline.setCallbackData(data);
-        return inline;
     }
 
 }
