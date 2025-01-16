@@ -22,6 +22,10 @@ public class Mood {
         this.good = good;
     }
 
+    public Mood() {
+
+    }
+
     public Long getId() {
         return id;
     }

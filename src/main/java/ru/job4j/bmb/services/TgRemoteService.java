@@ -10,11 +10,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.job4j.bmb.model.User;
+import ru.job4j.bmb.repository.MoodRepository;
 import ru.job4j.bmb.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class TgRemoteService extends TelegramLongPollingBot {
@@ -23,6 +25,7 @@ public class TgRemoteService extends TelegramLongPollingBot {
     private final String botName;
     private final String botToken;
     private final UserRepository userRepository;
+    private final MoodRepository moodRepository;
     private MoodService moodService;
 
     static {
@@ -35,11 +38,12 @@ public class TgRemoteService extends TelegramLongPollingBot {
 
     public TgRemoteService(@Value("${telegram.bot.name}") String botName,
                            @Value("${telegram.bot.token}") String botToken,
-                           UserRepository userRepository, MoodService moodService) {
+                           UserRepository userRepository, MoodService moodService, MoodRepository moodRepository) {
         this.botName = botName;
         this.botToken = botToken;
         this.userRepository = userRepository;
         this.moodService = moodService;
+        this.moodRepository = moodRepository;
     }
 
     @Override
@@ -83,11 +87,10 @@ public class TgRemoteService extends TelegramLongPollingBot {
         var inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        keyboard.add(List.of(createBtn("Потерял носок \uD83D\uDE22", "lost_sock")));
-        keyboard.add(List.of(createBtn("Как огурец на полке \uD83D\uDE10", "cucumber")));
-        keyboard.add(List.of(createBtn("Готов к танцам \uD83D\uDE04", "dance_ready")));
-        keyboard.add(List.of(createBtn("Где мой кофе?! \uD83D\uDE23", "need_coffee")));
-        keyboard.add(List.of(createBtn("Слипаются глаза \uD83D\uDE29", "sleepy")));
+        moodRepository.findAll().forEach(mood ->
+        {
+            keyboard.add(List.of(createBtn(mood.getText(), mood.getText())));
+        });
 
         inlineKeyboardMarkup.setKeyboard(keyboard);
         message.setReplyMarkup(inlineKeyboardMarkup);
