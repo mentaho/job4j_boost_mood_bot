@@ -25,6 +25,8 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
+
+
     @Bean
     CommandLineRunner loadDatabase(MoodRepository moodRepository, MoodContentRepository moodContentRepository, AwardRepository awardRepository) {
         return args -> {
@@ -65,5 +67,6 @@ public class Main {
             awards.add(new Award("Персональное поздравление", "За значимые достижения (например, 50 дней хорошего настроения). Награда: Персонализированное сообщение от команды приложения или вдохновляющая цитата.", 50));
             awardRepository.saveAll(awards);
         };
+
     }
 }
