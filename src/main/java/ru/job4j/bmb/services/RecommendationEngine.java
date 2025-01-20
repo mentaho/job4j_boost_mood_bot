@@ -7,15 +7,16 @@ import ru.job4j.bmb.content.Content;
 import ru.job4j.bmb.model.Mood;
 import ru.job4j.bmb.model.MoodLog;
 
+@Component
 public class RecommendationEngine {
     private long chatId;
     private Long moodId;
 
-    public RecommendationEngine(long chatId, Long moodId) {
-        this.chatId = chatId;
-        this.moodId = moodId;
+    public RecommendationEngine() {
+
     }
-@Bean
+
+
     public Content recommendFor(long chatId, Long moodId) {
         Content content = new Content(chatId);
         return content;

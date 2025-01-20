@@ -1,3 +1,4 @@
+/*
 package ru.job4j.bmb.services;
 
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,3 +26,4 @@ public class RemindService {
         }
     }
 }
+*/

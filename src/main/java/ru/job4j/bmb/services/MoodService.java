@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class MoodService {
     private final MoodLogRepository moodLogRepository;
-//    private final RecommendationEngine recommendationEngine;
+    private final RecommendationEngine recommendationEngine;
     private final UserRepository userRepository;
     private final AchievementRepository achievementRepository;
     private final DateTimeFormatter formatter = DateTimeFormatter
@@ -26,19 +26,19 @@ public class MoodService {
             .withZone(ZoneId.systemDefault());
 
     public MoodService(MoodLogRepository moodLogRepository,
-//                       RecommendationEngine recommendationEngine,
+                       RecommendationEngine recommendationEngine,
                        UserRepository userRepository,
                        AchievementRepository achievementRepository) {
         this.moodLogRepository = moodLogRepository;
-//        this.recommendationEngine = recommendationEngine;
+        this.recommendationEngine = recommendationEngine;
         this.userRepository = userRepository;
         this.achievementRepository = achievementRepository;
     }
 
-//    public Content chooseMood(User user, Long moodId) {
-//
-//        return recommendationEngine.recommendFor(user.getChatId(), moodId);
-//    }
+    public Content chooseMood(User user, Long moodId) {
+
+        return recommendationEngine.recommendFor(user.getChatId(), moodId);
+    }
 
     public Optional<Content> weekMoodLogCommand(long chatId, Long clientId) {
         var content = new Content(chatId);
