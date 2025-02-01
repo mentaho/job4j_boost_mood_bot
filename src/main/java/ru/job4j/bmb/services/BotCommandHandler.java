@@ -24,7 +24,6 @@ public class BotCommandHandler {
     }
 
     Optional<Content> commands(Message message) {
-        // Обработка команд
         return Optional.empty();
     }
 
