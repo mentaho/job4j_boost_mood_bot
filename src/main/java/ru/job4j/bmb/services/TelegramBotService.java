@@ -20,10 +20,6 @@ public class TelegramBotService implements BeanNameAware {
         this.handler = handler;
     }
 
-    public void content(Content content) {
-        handler.receive(content);
-    }
-
     @PreDestroy
     public void destroy() {
         System.out.println("Bean will be destroyed via @PreDestroy.");

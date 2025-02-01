@@ -16,7 +16,6 @@ public class RecommendationEngine {
 
     }
 
-
     public Content recommendFor(long chatId, Long moodId) {
         Content content = new Content(chatId);
         return content;
